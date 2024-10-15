@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
     public static void main(String[] args) {
@@ -30,6 +31,16 @@ public class Main {
                     } else{
                         jogador2 = new Jogador(1, "Dois");
                         criacoes++;
+                    }
+                    break;
+                case 3:
+                    tutorial();
+                    try{
+                        TimeUnit.SECONDS.sleep(2);
+
+                    } catch (InterruptedException e) {
+                        // TODO Auto-generated catch block
+                        e.printStackTrace();
                     }
                     break;
                 default:
@@ -80,9 +91,13 @@ public class Main {
     public static void tutorial(){
         System.out.println("============CEFET ADVENTURE===========\n");
         System.out.println("Cada jogador em seu turno poderá escolher entre matar inimigos ou evoluir seu poder\n");
+        try{ TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
         System.out.println("Seu poder comeca em 1\n");
+        try{ TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
         System.out.println("Evoluindo seu poder, você mata mais inimigos de uma só vez\n.");
+        try{ TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
         System.out.println("O poder evolui de 1 em 1\n");
+        try{ TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
         System.out.println("Crie o jogador 1 e o jogador 2 para comecar.\n");
     }
     public static int outGameMenu(){
@@ -109,13 +124,12 @@ public class Main {
     }
     public static int inGameMenu(Jogador jogadorAtual){
         int escolha;
-        JogoSingleton jogo = JogoSingleton.getInstance();
         Scanner scan = new Scanner(System.in);
         System.out.println("\n\n\n\n\n");
         System.err.println("==============CEFET ADVENTURE===============\n");
         System.out.println("Vez do jogador: " + jogadorAtual.getNome());
-        System.out.println("Fase atual: " + jogo.getFase() + "\n");
-        System.out.println("Monstros vivos: " + jogo.getQuantidadeMonstrosVivos() + "\n");
+        System.out.println("Fase atual: " + jogadorAtual.getJogo().getFase() + "\n");
+        System.out.println("Monstros vivos: " + jogadorAtual.getJogo().getQuantidadeMonstrosVivos() + "\n");
         System.out.println("Seu poder : " + jogadorAtual.getPoder());
         System.out.println("1 - Matar Monstro\n");
         System.out.println("2 - Aumentar poder\n");
