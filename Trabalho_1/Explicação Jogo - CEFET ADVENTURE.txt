@@ -1,0 +1,10 @@
+Para jogar o jogo, basta iniciar o Main.class colocando no terminal: "java Main".
+o jogo é um jogo de dois jogadores, que matam monstros. A cada fase, há um número inicial de monstros e os jogadores devem escolher entre duas opções:
+1 - Matar monstros (usa seu poder atual para matar os monstros da rodada).
+2 - Aumentar seu poder (aumenta seu poder em 1 para matar mais monstros na próxima jogada.
+
+O jogo acaba depois de fase 5 (32 monstros).
+
+O jogo possui um tutorial apertando a tecla 3 no menu inicial.
+
+Singleton: O jogo possui uma classe que se chama JogoSingleton, que utiliza do design pattern Singleton para carregar informações o jogo, em que cada jogador consegue consultar.
