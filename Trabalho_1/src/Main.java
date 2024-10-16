@@ -9,55 +9,52 @@ public class Main {
         Jogador jogador1 = null;
         Jogador jogador2 = null;
 
-        do{
+        do {
             escolha = outGameMenu();
             switch (escolha) {
                 case 0:
                     quitMessage();
                     System.exit(1);
-                case 1: 
-                    if(jogador1 != null){
+                case 1:
+                    if (jogador1 != null) {
                         System.out.println("\n\n\n");
                         System.err.println("Jogador já criado");
-                    } else{
+                    } else {
                         jogador1 = new Jogador(1, "Um");
                         criacoes++;
                     }
                     break;
                 case 2:
-                    if(jogador2 != null) {
+                    if (jogador2 != null) {
                         System.out.println("\n\n\n");
                         System.err.println("Jogador já criado");
-                    } else{
+                    } else {
                         jogador2 = new Jogador(1, "Dois");
                         criacoes++;
                     }
                     break;
                 case 3:
                     tutorial();
-                    try{
+                    try {
                         TimeUnit.SECONDS.sleep(2);
-
                     } catch (InterruptedException e) {
-                        // TODO Auto-generated catch block
                         e.printStackTrace();
                     }
                     break;
                 default:
-                    System.out.println("Pressinou tecla nao prevista, saindo do jogo...");
+                    System.out.println("Pressionou tecla não prevista, saindo do jogo...");
                     System.exit(0);
                     break;
             }
-            // if(escolha == 0) {
-            //     return;
-            // }
-        }while(escolha != 0 && criacoes <= 1);
+        } while (escolha != 0 && criacoes <= 1);
 
-        Jogador jogadores[] = {jogador1, jogador2};
+        Jogador[] jogadores = {jogador1, jogador2};
         int turno = 1;
-        do{
+
+        do {
             int escolhaInGame;
             escolhaInGame = inGameMenu(jogadores[turno - 1]);
+
             switch (escolhaInGame) {
                 case 0:
                     quitMessage();
@@ -65,64 +62,113 @@ public class Main {
                     break;
                 case 1:
                     int poder = jogadores[turno - 1].getPoder();
-                    jogo.matarMonstro(poder);
+                    int monstrosVivos = jogo.getQuantidadeMonstrosVivos();
+
+                    if (monstrosVivos == 1) {
+                        // Caso especial para quando restar apenas 1 monstro
+                        jogo.matarMonstro(1);
+                        System.out.println(jogadores[turno - 1].getNome() + " matou o último monstro!");
+                    } else if (poder >= monstrosVivos) {
+                        // Quando o jogador mata todos os monstros restantes
+                        jogo.matarMonstro(monstrosVivos);
+                        System.out.println("Jogador "+ jogadores[turno - 1].getNome() + " matou todos os monstros restantes!");
+                    } else {
+                        // Jogador mata de acordo com seu poder
+                        jogo.matarMonstro(poder);
+                        System.out.println(jogadores[turno - 1].getNome() + " matou " + poder + " monstros.");
+                    }
                     break;
                 case 2:
                     jogadores[turno - 1].evoluirPoder();
+                    System.out.println("Jogador " + jogadores[turno - 1].getNome() + " aumentou seu poder para " + jogadores[turno - 1].getPoder() + ".");
                     break;
                 default:
-                    System.out.println("\nEscolha uma opcao valida!!");
+                    System.out.println("\nEscolha uma opção válida!!");
                     break;
+            }
+
+           
+            try {
+                TimeUnit.SECONDS.sleep(2);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             turno = trocarTurno(turno);
-            //verificar se fase acabou
-            if (jogo.getQuantidadeMonstrosVivos() <= 0){
+
+            // Verificar se fase acabou
+            if (jogo.getQuantidadeMonstrosVivos() <= 0) {
                 jogo.passarFase();
+                System.out.println("Todos os monstros foram derrotados!");
+                
+                try {
+                    TimeUnit.SECONDS.sleep(2);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
-            //verificar se jogo acabou
-            if(jogo.getFase() > 5){
+
+            // Verificar se o jogo acabou
+            if (jogo.getFase() > 5) {
                 endGameMessage();
                 System.exit(1);
             }
-        }while(escolha != 0);
-    }   
+        } while (escolha != 0);
+    }
 
-    public static void tutorial(){
+    public static void tutorial() {
         System.out.println("============CEFET ADVENTURE===========\n");
         System.out.println("Cada jogador em seu turno poderá escolher entre matar inimigos ou evoluir seu poder\n");
-        try{ TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
-        System.out.println("Seu poder comeca em 1\n");
-        try{ TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
-        System.out.println("Evoluindo seu poder, você mata mais inimigos de uma só vez\n.");
-        try{ TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Seu poder começa em 1\n");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Evoluindo seu poder, você mata mais inimigos de uma só vez.\n");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println("O poder evolui de 1 em 1\n");
-        try{ TimeUnit.SECONDS.sleep(2); } catch (InterruptedException e) { e.printStackTrace(); }
-        System.out.println("Crie o jogador 1 e o jogador 2 para comecar.\n");
+        try {
+            TimeUnit.SECONDS.sleep(2);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Crie o jogador 1 e o jogador 2 para começar.\n");
     }
-    public static int outGameMenu(){
+
+    public static int outGameMenu() {
         System.out.println("============CEFET ADVENTURE===========\n");
-        System.out.println("1 - Criar jogador 1\n"); //cria instancia do jogador 1
-        System.out.println("2 - Criar jogador 2\n"); //cria instancia do jogador 2
+        System.out.println("1 - Criar jogador 1\n");
+        System.out.println("2 - Criar jogador 2\n");
         System.out.println("3 - Tutorial\n");
         System.err.println("0 - Sair do Jogo\n");
         int escolha;
         Scanner scan = new Scanner(System.in);
-        
         escolha = scan.nextInt();
-        
         return escolha;
     }
-    public static int trocarTurno(int turno){
+
+    public static int trocarTurno(int turno) {
         return (turno == 1) ? 2 : 1;
     }
-    public static void quitMessage(){
+
+    public static void quitMessage() {
         System.out.println("\n\n\n\n\n");
         System.err.println("==============CEFET ADVENTURE===============\n");
         System.out.println("Você fechou o jogo...\n");
         System.out.println("Te vejo na próxima!\n");
     }
-    public static int inGameMenu(Jogador jogadorAtual){
+
+    public static int inGameMenu(Jogador jogadorAtual) {
         int escolha;
         Scanner scan = new Scanner(System.in);
         System.out.println("\n\n\n\n\n");
@@ -135,12 +181,15 @@ public class Main {
         System.out.println("2 - Aumentar poder\n");
         System.out.println("0 - Sair do jogo\n");
         escolha = scan.nextInt();
-        
         return escolha;
+        
     }
-    public static void endGameMessage(){
-        System.out.println("\n\n\n\n\n\n\n\n");
+
+    public static void endGameMessage() {
+        System.out.println("\n\n\n\n\n\n");
         System.out.println("==================FIM DE JOGO=============");
-        System.out.println("Parabens! Voces venceram todos os inimigos!");
+        System.out.println("\nParabéns! Vocês venceram todos os inimigos!");
+        System.out.println("\n\n\n\n\n\n");
     }
+    
 }
