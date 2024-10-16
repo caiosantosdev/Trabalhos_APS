@@ -11,7 +11,7 @@ public class JogoSingleton {
         quantidadeMonstros = 2;
         quantidadeMonstrosVivos = quantidadeMonstros;
         fase = 1;
-        // logica para criar o objeto jogo
+        
     }
 
     public static JogoSingleton getInstance(){
@@ -23,10 +23,12 @@ public class JogoSingleton {
         }
     }
 
+    // A qtd de monstros que o jogador mata é a qtd de seu poder
     public void matarMonstro (int poder){
         this.quantidadeMonstrosVivos -= poder;
     }
 
+    // Ao passar de fase, a quantidade de monstros a serem derrotados é o dobro da qtd de monstros da fase passada
     public void passarFase() {
         this.fase++;
         this.quantidadeMonstros*=2;

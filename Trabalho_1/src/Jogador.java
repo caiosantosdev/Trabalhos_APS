@@ -26,13 +26,9 @@ public class Jogador {
     public void setNome(String nome){
         this.nome = nome;
     }
-
+    // O poder do jogador evolui de 1 em 1
      public void evoluirPoder(){
         this.poder++;
     }
 
-    // public void exibirPoder(){
-    //     System.out.println("Poder do jogador: "+ poder);
-    // }
-      
 }
